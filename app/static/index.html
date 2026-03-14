@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+<meta charset="UTF-8">
+<title>Calculadora Alométrica</title>
+
+<style>
+
+body{
+font-family: Arial;
+background:#f4f6f8;
+margin:0;
+padding:0;
+}
+
+.container{
+max-width:700px;
+margin:auto;
+background:white;
+padding:30px;
+margin-top:40px;
+border-radius:8px;
+box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+h1{
+text-align:center;
+}
+
+.info{
+background:#eef5ff;
+padding:15px;
+border-radius:5px;
+margin-bottom:20px;
+}
+
+label{
+font-weight:bold;
+display:block;
+margin-top:15px;
+}
+
+input,select{
+width:100%;
+padding:8px;
+margin-top:5px;
+}
+
+button{
+margin-top:20px;
+padding:10px;
+width:100%;
+background:#2c7be5;
+color:white;
+border:none;
+border-radius:4px;
+cursor:pointer;
+}
+
+button:hover{
+background:#1a5ec8;
+}
+
+.resultado{
+margin-top:30px;
+background:#f7f9fc;
+padding:20px;
+border-radius:5px;
+}
+
+.valor{
+font-size:18px;
+margin:8px 0;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Calculadora Alométrica de Dose</h1>
+
+<div class="info">
+
+<p>
+Esta ferramenta calcula doses medicamentosas entre espécies
+utilizando escalonamento alométrico.
+</p>
+
+<p><b>Passos:</b></p>
+
+<ul>
+<li>Escolha o grupo do animal modelo.</li>
+<li>Escolha o grupo do animal alvo.</li>
+<li>Informe o peso do animal alvo em kg.</li>
+<li>Clique em calcular.</li>
+</ul>
+
+<p>
+A fórmula usada considera diferenças metabólicas entre espécies.
+</p>
+
+</div>
+
+
+<label>Grupo do animal modelo</label>
+
+<select id="modelo">
+
+<option value="">Selecione</option>
+<option value="passeriforme">Passeriforme</option>
+<option value="nao_passeriforme">Não passeriforme</option>
+<option value="mamifero_placentario">Mamífero placentário</option>
+<option value="marsupial">Marsupial</option>
+<option value="reptil">Réptil</option>
+
+</select>
+
+
+<label>Grupo do animal alvo</label>
+
+<select id="alvo">
+
+<option value="">Selecione</option>
+<option value="passeriforme">Passeriforme</option>
+<option value="nao_passeriforme">Não passeriforme</option>
+<option value="mamifero_placentario">Mamífero placentário</option>
+<option value="marsupial">Marsupial</option>
+<option value="reptil">Réptil</option>
+
+</select>
+
+
+<label>Peso do animal alvo (kg)</label>
+
+<input type="number" id="peso_alvo" step="0.01" placeholder="Ex: 2.5">
+
+
+<button onclick="calcular()">Calcular Dose</button>
+
+
+<div class="resultado" id="resultado" style="display:none">
+
+<h3>Resultado do cálculo</h3>
+
+<div class="valor" id="dose"></div>
+<div class="valor" id="doseTotal"></div>
+<div class="valor" id="frequencia"></div>
+<div class="valor" id="intervalo"></div>
+
+</div>
+
+</div>
+
+<script>
+
+function calcular(){
+
+let modelo = document.getElementById("modelo").value
+let alvo = document.getElementById("alvo").value
+let peso_alvo = document.getElementById("peso_alvo").value
+
+if(!modelo || !alvo || !peso_alvo){
+alert("Preencha todos os campos")
+return
+}
+
+fetch(`/calcular?grupo_modelo=${modelo}&grupo_alvo=${alvo}&peso_alvo=${peso_alvo}`)
+.then(res => res.json())
+.then(data => {
+
+let r = data.resultado
+
+document.getElementById("dose").innerText =
+"Dose por Kg: " + r.dose_ajustada.valor + " mg/kg"
+
+document.getElementById("doseTotal").innerText =
+"Dose total: " + r.dose_total.valor + " mg"
+
+document.getElementById("frequencia").innerText =
+"Frequência: a cada " + r.frequencia.valor + " horas"
+
+// document.getElementById("intervalo").innerText =
+// "Duração do tratamento: " + r.intervalo_tratamento.valor + " dias"
+
+document.getElementById("resultado").style.display = "block"
+
+})
+
+}
+
+</script>
+
+</body>
+</html>
