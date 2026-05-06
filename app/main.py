@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.responses import FileResponse
-from .calculator import calcular_dose
+from .calculator import calculo_alometrico
 from .models import GrupoAnimal
 from .constants import GRUPOS
 
@@ -33,14 +33,16 @@ def listar_grupos():
 def detalhes_grupo(grupo: GrupoAnimal):
     return GRUPOS[grupo.value]
 
-
 # cálculo principal
 @app.get("/calcular")
 def calcular(
         grupo_modelo: GrupoAnimal,
+        peso_modelo: float,
         grupo_alvo: GrupoAnimal,
-        peso_alvo: float
+        peso_alvo: float,
+        dose_modelo: float,
+        intervalo: int
     ):
-    resultado = calcular_dose(grupo_modelo.value, grupo_alvo.value, peso_alvo)
+    resultado = calculo_alometrico(grupo_modelo.value, peso_modelo, grupo_alvo.value, peso_alvo, dose_modelo, intervalo)
 
     return resultado
