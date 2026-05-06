@@ -5,4 +5,3 @@ class GrupoAnimal(str, Enum):
     nao_passeriforme = "nao_passeriforme"
     mamifero_placentario = "mamifero_placentario"
     marsupial = "marsupial"
-    reptil = "reptil"
