@@ -44,32 +44,3 @@ def calcular(
     resultado = calcular_dose(grupo_modelo.value, grupo_alvo.value, peso_alvo)
 
     return resultado
-
-
-# # metabolismo basal
-# @app.get("/metabolism")
-# def metabolismo(massa: float):
-#     resultado = 70 * (massa ** 0.75)
-    
-#     return {"massa": massa, "metabolism": resultado}
-
-# # frequência cardíaca
-# @app.get("/heart-rate")
-# def heart_rate(massa: float):
-#     resultado = 241 * (massa ** -0.25)
-    
-#     return {"massa": massa, "heart_rate": resultado}
-
-# # expectativa de vida
-# @app.get("/lifespan")
-# def lifespan(massa: float):
-#     resultado = 11 * (massa ** 0.2)
-    
-#     return {"massa": massa, "lifespan": resultado}
-
-# # massa cerebral aproximada
-# @app.get("/brain-mass")
-# def brain_mass(massa: float):
-#     resultado = 0.12 * (massa ** 0.66)
-
-#     return {"massa": massa, "brain_mass": resultado}
